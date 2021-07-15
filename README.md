@@ -1,5 +1,5 @@
 <div align="center" id="top"> 
-  <img src="./assets/images/logo-dark.png" alt="Sangaai" />
+  <img src="./assets/images/logo-white.png" alt="Sangaai" />
 
  <h5 align="center" style="color: #888">all you want in one place</h5>
  &#xa0;
