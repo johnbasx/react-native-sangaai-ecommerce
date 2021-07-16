@@ -61,6 +61,7 @@ const Tabs = () => {
         component={CartScreen}
         options={{
           tabBarBadge: 3,
+          tabBarVisible: false,
           tabBarBadgeStyle: {
             marginTop: 10,
             backgroundColor: COLORS.red400,

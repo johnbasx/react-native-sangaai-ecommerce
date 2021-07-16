@@ -11,6 +11,7 @@ export const COLORS = {
   gray200: '#ABABAB',
   gray400: '#ABABAB',
   gray900: '#292929',
+  grayInput: '#e8e8e8',
 
   // primary
   white: '#FFFFFF',

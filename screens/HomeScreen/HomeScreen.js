@@ -61,7 +61,7 @@ export const HomeScreen = ({navigation}) => {
             paddingBottom: 100,
           }}
           showsVerticalScrollIndicator={false}>
-          <Header bottomBorder={false} searchButton>
+          <Header navigation={navigation} bottomBorder={false} searchButton>
             <Logo height={30} width={200} />
           </Header>
           {renderHeader(handlePresentModalPress)}

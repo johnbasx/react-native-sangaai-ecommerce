@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -8,9 +8,26 @@ import {
   FlatList,
   Alert,
 } from 'react-native';
-import {SIZES, FONTS, COLORS} from '../../../constants';
+import {SIZES, FONTS, COLORS, icons} from '../../../constants';
 
 export const CartItem = ({navigation, item}) => {
+  const [count, setCount] = useState(item.quantity);
+
+  const increment = () => {
+    const countCopy = count;
+    setCount(countCopy + 1);
+  };
+
+  const decrement = () => {
+    if (count > 1) {
+      const countCopy = count;
+      setCount(countCopy - 1);
+    }
+    if (count == 1) {
+      console.log('delete item');
+    }
+  };
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.itemContainer}>
@@ -25,13 +42,28 @@ export const CartItem = ({navigation, item}) => {
           {/* Product and Item Details like Brand Name, Product Name, category name, seller name, variants etc. */}
 
           <Text style={styles.brandName}>{item.product.brand}</Text>
+
+          {/* Product name */}
           <Text numberOfLines={4} ellipsizeMode="clip" style={styles.itemName}>
             {item.product.name}
           </Text>
+
+          {/* Product category */}
           <Text style={styles.categoryName}>{item.product.category}</Text>
-          <Text style={{...FONTS.semiH5, fontStyle: 'italic'}}>
-            by {item.product.seller}
-          </Text>
+
+          {/* seller verified and all */}
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            {item.product.seller_is_verified ? (
+              <Image
+                source={icons.verifiedFilled}
+                resizeMode="contain"
+                style={styles.verifiedIcon}
+              />
+            ) : null}
+            <Text style={{...FONTS.semiH5, fontStyle: 'italic'}}>
+              by {item.product.seller}
+            </Text>
+          </View>
 
           {/* Conditinally shown data */}
           <View style={styles.variantsContainer}>
@@ -51,15 +83,33 @@ export const CartItem = ({navigation, item}) => {
               width: '100%',
               justifyContent: 'flex-end',
             }}>
-            <TouchableOpacity style={styles.minusButton}>
-              <Text style={{...FONTS.h2, color: COLORS.white}}>-</Text>
-            </TouchableOpacity>
+            {count > 1 ? (
+              <TouchableOpacity
+                style={styles.minusPlusButton}
+                onPress={() => decrement()}>
+                <Text style={{...FONTS.h2, color: COLORS.white}}>-</Text>
+              </TouchableOpacity>
+            ) : (
+              // delete button
+              <TouchableOpacity
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+                onPress={() => decrement()}>
+                <Image
+                  source={icons.deleteIcon}
+                  resizeMode="contain"
+                  style={styles.deleteIcon}
+                />
+              </TouchableOpacity>
+            )}
             <View style={styles.quantity}>
-              <Text style={{...FONTS.h3, color: COLORS.gray}}>
-                {item.quantity}
-              </Text>
+              <Text style={{...FONTS.h4, color: COLORS.black}}>{count}</Text>
             </View>
-            <TouchableOpacity style={styles.plusButton}>
+            <TouchableOpacity
+              style={styles.minusPlusButton}
+              onPress={() => increment()}>
               <Text style={{...FONTS.h2, color: COLORS.white}}>+</Text>
             </TouchableOpacity>
           </View>
@@ -129,6 +179,12 @@ const styles = StyleSheet.create({
     ...FONTS.body3,
     //maxWidth: SIZES.width / 2 + SIZES.padding,
   },
+  verifiedIcon: {
+    height: SIZES.font,
+    width: SIZES.font,
+    marginRight: 5,
+    tintColor: COLORS.green,
+  },
   categoryName: {
     ...FONTS.semiH5,
     color: COLORS.gray200,
@@ -147,44 +203,29 @@ const styles = StyleSheet.create({
     paddingVertical: SIZES.radiusS,
   },
   button: {
-    // borderWidth: 1,
-    // borderRadius: 5,
-    // borderColor: COLORS.gray200,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: SIZES.base,
     paddingHorizontal: SIZES.padding,
   },
-  minusButton: {
+  minusPlusButton: {
     height: SIZES.smallButton,
     width: SIZES.smallButton,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: COLORS.gray,
-    borderTopLeftRadius: SIZES.base,
-    borderBottomLeftRadius: SIZES.base,
-    borderWidth: 1,
-    borderColor: COLORS.gray,
+    borderRadius: SIZES.radiusM,
+    backgroundColor: COLORS.red400,
   },
-  plusButton: {
-    height: SIZES.smallButton,
-    width: SIZES.smallButton,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: COLORS.gray,
-    borderTopRightRadius: SIZES.base,
-    borderBottomRightRadius: SIZES.base,
-    borderWidth: 1,
-    borderColor: COLORS.gray,
+  deleteIcon: {
+    height: SIZES.smallButton - 5,
+    width: SIZES.smallButton - 5,
+    tintColor: COLORS.red400,
   },
   quantity: {
     height: SIZES.smallButton,
     width: SIZES.smallButton,
     justifyContent: 'center',
     alignItems: 'center',
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: COLORS.gray,
   },
 });

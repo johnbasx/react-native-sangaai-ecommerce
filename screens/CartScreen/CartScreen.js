@@ -6,18 +6,21 @@ import {
   SafeAreaView,
   StatusBar,
   ScrollView,
+  Pressable,
+  StyleSheet,
+  TextInput,
 } from 'react-native';
 
 import {Header} from '../../components';
 import {COLORS, FONTS, SIZES} from '../../constants';
 
-import {CartItem, cartItems} from './components';
+import {CartItem, cartItems, CouponInput, ProceedButton} from './components';
 
 export const CartScreen = ({navigation}) => {
   const [totalCartItems, setTotalCartItems] = useState(3);
   const [loading, setLoading] = useState(false);
 
-  const delay = () => {
+  const onPress = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
@@ -37,34 +40,18 @@ export const CartScreen = ({navigation}) => {
       <ScrollView>
         <View
           style={{
-            paddingHorizontal: SIZES.padding,
-            marginVertical: 20,
+            backgroundColor: COLORS.green,
+            height: 30,
+            justifyContent: 'center',
+            alignItems: 'center',
           }}>
-          <TouchableOpacity
-            style={{
-              backgroundColor: COLORS.black,
-              borderRadius: SIZES.radiusS,
-              height: SIZES.headerHeight,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            onPress={() => delay()}>
-            {!loading ? (
-              <>
-                <Text style={{...FONTS.semiH3, color: COLORS.white}}>
-                  Proceed to Buy
-                </Text>
-                <Text style={{...FONTS.semiH5, color: COLORS.gray100}}>
-                  ({totalCartItems} items)
-                </Text>
-              </>
-            ) : (
-              <Text style={{...FONTS.semiH3, color: COLORS.white}}>
-                Loading...
-              </Text>
-            )}
-          </TouchableOpacity>
+          <Text style={{...FONTS.body5, color: COLORS.white}}>
+            <Text style={{...FONTS.semiH5}}>GRAB 15% off </Text>on Special
+            Products
+          </Text>
         </View>
+
+        {/* Cart Items start */}
         {cartItems.map(item => (
           <CartItem
             navigation={navigation}
@@ -72,39 +59,37 @@ export const CartScreen = ({navigation}) => {
             key={'key' + item.id.toString()}
           />
         ))}
+        {/* Cart Items end */}
 
-        <View
-          style={{
-            paddingHorizontal: SIZES.padding,
-            marginTop: 20,
-            marginBottom: SIZES.height / 8,
-          }}>
-          <TouchableOpacity
-            style={{
-              backgroundColor: COLORS.black,
-              borderRadius: SIZES.radiusS,
-              height: SIZES.headerHeight,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-            onPress={() => delay()}>
-            {!loading ? (
-              <>
-                <Text style={{...FONTS.semiH3, color: COLORS.white}}>
-                  Proceed to Buy
-                </Text>
-                <Text style={{...FONTS.semiH5, color: COLORS.gray100}}>
-                  ({totalCartItems} items)
-                </Text>
-              </>
-            ) : (
-              <Text style={{...FONTS.semiH3, color: COLORS.white}}>
-                Loading...
-              </Text>
-            )}
-          </TouchableOpacity>
-        </View>
+        {/* Apply Coupon */}
+
+        <CouponInput />
+
+        <View style={{marginBottom: SIZES.height / 10}} />
       </ScrollView>
+      <View style={styles.customBottomContainer}>
+        <ProceedButton
+          navigation={navigation}
+          loading={loading}
+          text="Proceed to buy"
+          subText={`(${totalCartItems} items)`}
+          onPress={onPress}
+        />
+      </View>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  customBottomContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    borderTopLeftRadius: SIZES.radiusM,
+    borderTopRightRadius: SIZES.radiusM,
+    width: SIZES.width,
+    paddingBottom: SIZES.padding,
+    backgroundColor: COLORS.white,
+  },
+});

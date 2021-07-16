@@ -6,6 +6,7 @@ import {
   StyleSheet,
   StatusBar,
   Image,
+  TouchableHighlight,
 } from 'react-native';
 import {COLORS, FONTS, icons, SIZES} from '../constants';
 
@@ -38,11 +39,12 @@ export const Header = ({
 
       {/* back button */}
       {navigation || backButton ? (
-        <TouchableOpacity
+        <TouchableHighlight
+          underlayColor={COLORS.gray100}
           style={styles.buttonContainer}
-          onPress={() => navigation.navigate('Home')}>
+          onPress={() => navigation.goBack()}>
           <Image source={icons.back} style={styles.back} resizeMode="contain" />
-        </TouchableOpacity>
+        </TouchableHighlight>
       ) : (
         // empty view to push other icons to the back
         <View></View>
@@ -51,18 +53,21 @@ export const Header = ({
       {/* save button */}
       <View style={styles.otherIconsContainer}>
         {saveButton ? (
-          <TouchableOpacity style={styles.buttonContainer}>
+          <TouchableHighlight
+            underlayColor={COLORS.gray100}
+            style={styles.buttonContainer}>
             <Image
               source={icons.love}
               style={styles.love}
               resizeMode="contain"
             />
-          </TouchableOpacity>
+          </TouchableHighlight>
         ) : null}
 
         {/* search button  */}
         {searchButton ? (
-          <TouchableOpacity
+          <TouchableHighlight
+            underlayColor={COLORS.gray100}
             style={styles.buttonContainer}
             onPress={() => navigation.navigate('Search')}>
             <Image
@@ -70,7 +75,7 @@ export const Header = ({
               style={styles.search}
               resizeMode="contain"
             />
-          </TouchableOpacity>
+          </TouchableHighlight>
         ) : null}
       </View>
     </View>
@@ -90,8 +95,7 @@ const styles = StyleSheet.create({
     width: SIZES.iconContainer,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: COLORS.gray100,
-    borderRadius: SIZES.radiusS,
+    borderRadius: SIZES.radiusL,
   },
   back: {
     height: 20,
