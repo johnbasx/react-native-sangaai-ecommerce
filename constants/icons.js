@@ -33,6 +33,7 @@ const star = require('../assets/icons/star.png');
 const starFilled = require('../assets/icons/star-filled.png');
 const verified = require('../assets/icons/verified.png');
 const verifiedFilled = require('../assets/icons/verified-filled.png');
+const logout = require('../assets/icons/logout.png');
 
 export default {
   // header icons
@@ -73,4 +74,5 @@ export default {
   starFilled,
   verified,
   verifiedFilled,
+  logout,
 };

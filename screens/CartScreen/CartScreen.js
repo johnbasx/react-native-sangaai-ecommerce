@@ -9,16 +9,25 @@ import {
   Pressable,
   StyleSheet,
   TextInput,
+  Image,
 } from 'react-native';
 
-import {Header} from '../../components';
+import {Gap, Header} from '../../components';
 import {COLORS, FONTS, SIZES} from '../../constants';
+import {cartIcons} from './assets';
 
-import {CartItem, cartItems, CouponInput, ProceedButton} from './components';
+import {
+  CartItem,
+  cartItems,
+  CouponInput,
+  GiftWrap,
+  ProceedButton,
+} from './components';
 
 export const CartScreen = ({navigation}) => {
   const [totalCartItems, setTotalCartItems] = useState(3);
   const [loading, setLoading] = useState(false);
+  const [giftPrice, setGiftPrice] = useState(0);
 
   const onPress = () => {
     setLoading(true);
@@ -27,6 +36,9 @@ export const CartScreen = ({navigation}) => {
     }, 5000);
   };
 
+  const Border = () => {
+    return <View style={{backgroundColor: COLORS.gray100, height: 1}}></View>;
+  };
   return (
     <SafeAreaView style={{flex: 1}}>
       <StatusBar barStyle="dark-content" />
@@ -65,7 +77,13 @@ export const CartScreen = ({navigation}) => {
 
         <CouponInput />
 
-        <View style={{marginBottom: SIZES.height / 10}} />
+        <Border />
+
+        <GiftWrap price={setGiftPrice} />
+
+        <Border />
+
+        <View style={{marginBottom: SIZES.height / 8}} />
       </ScrollView>
       <View style={styles.customBottomContainer}>
         <ProceedButton
@@ -86,8 +104,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    borderTopLeftRadius: SIZES.radiusM,
-    borderTopRightRadius: SIZES.radiusM,
     width: SIZES.width,
     paddingBottom: SIZES.padding,
     backgroundColor: COLORS.white,
